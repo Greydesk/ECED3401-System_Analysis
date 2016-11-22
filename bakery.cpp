@@ -9,8 +9,12 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <deque>
+
 using namespace std;
 
+#include "equipment.h"
+#include "food.h"
 // Include all necessary standard headers...
 // ... and custom headers
 // Define Constants as required
