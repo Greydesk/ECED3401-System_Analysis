@@ -92,7 +92,7 @@ customer::customer(int id, int craving, int arrivalTime, int loiterTime){
 	int _craving      = craving;
 	int _arrivalTime  = arrivalT;
 	int _loiterT   = loiterT;
-	int _returnT   = -1
+	int _returnT   = -1;
 	int _purchaseT = -1;
 	
 	

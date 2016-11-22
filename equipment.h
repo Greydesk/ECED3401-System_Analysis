@@ -2,6 +2,8 @@
 class equipment {
 	friend class bakery;
 	private:
+		list<customer>* cMaster; // pointer to customer master list
+		list<foodItem>* fMaster; // pointer to food item master list
 		int _id;						// Unique ID number, sequentially designated
 		deque <foodItem> _items;		// All of the items in this piece of equipment
 		int _slots;						//	How many process slots the equipment has

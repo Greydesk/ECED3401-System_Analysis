@@ -10,11 +10,12 @@
 #include <string>
 #include <iomanip>
 #include <deque>
+#include <list>
 
 using namespace std;
 
-#include "equipment.h"
-#include "food.h"
+#include "bakery.h"
+
 // Include all necessary standard headers...
 // ... and custom headers
 // Define Constants as required
