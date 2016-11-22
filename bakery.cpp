@@ -5,6 +5,12 @@
  */
 
 /* PREPROCESSOR DIRECTIVES */
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
 // Include all necessary standard headers...
 // ... and custom headers
 // Define Constants as required
