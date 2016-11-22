@@ -1,1 +1,1 @@
-// Includes quipment class hierarchy and functions
+// Includes equipment class hierarchy and functions
