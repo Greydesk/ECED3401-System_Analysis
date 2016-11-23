@@ -1,47 +1,52 @@
 // This header includes the bakery and supplier classes and their methods
 
 /**********************************************************************************************************************/
-/****************************************************BAKERY CLASS******************************************************/
+/*************************************************** BAKERY CLASS *****************************************************/
 /**********************************************************************************************************************/
 #include <iostream>
 #include "customer.h"
 #include "food.h"
 #include "equipment.h"
 #include "tallysheet.h"
+#include "supplier.h"
 
 class bakery {
-	friend class supplier;
 	private:
 		float _cakePrice; // Selling price ($) of cakes 
 		float _croiPrice; // Selling price ($) of croissants
-		float _cashFlow;  // Cumulative cash flow ($)for the day
-		// Master lists
-		list<customer> _custMaster;
-		list<foodItem> _foodMaster;
-		// Equipment 
+		float _cashFlow;  // Cumulative cash flow ($) for the day
+		// Pointers to master lists
+		list<customer>* _cMaster;
+		list<foodItem>* _fMaster;
+		// Equipment
 		
 		// Other
-		tallySheet _tally;
+		tallysheet _tally;
 		
 	public:
-		bakery(float cakePrice, float croissantPrice);
-		float cakePrice();   // Getter: Selling price of a cake
-		float croiPrice();   // Getter: Selling price of a croissant
-		float cashFlow(); // Getter: Cumulative Cash Flow
+		bakery(float cakePrice, float croiPrice, list<customer>* cMaster, list<foodItem>* fMaster);
+		float cakePrice(); // Getter: Selling price of a cake
+		float croiPrice(); // Getter: Selling price of a croissant
+		float cashFlow();  // Getter: Cumulative Cash Flow
 		
-		void request(int foodItemType); // Adds funds and modifies fItem
-		void orderKits(int nCakes, int nCrois ); // Removes funds, adds items to foodMaster
+		// Operation functions
+		void request(int foodItemType); // process customer request, 
+		void order();
+		
+		void orderKits(int nCakes, int nCrois); // Removes funds, adds items to foodMaster
 
 		void writeRpt_daily(ostream &out);    // 
-		void writeRpt_customer(ostream &out, const &list<foodItem> _customerMaster);
-		void writeRpt_food(ostream &out, const &list<foodItem> _foodMaster);
-};
+		void writeRpt_customer(ostream &out, const &list<fooditem> _customerMaster);
+		void writeRpt_food(ostream &out, const &list<fooditem> _foodMaster);
+}
 
-bakery::bakery(float cakePrice, float croissantPrice)
+bakery(float cakePrice, float croissantPrice, list<customer>* cMaster, list<foodItem>* fMaster)
 {
 	_cakePrice      = cakePrice;
-	_croiPrice = croissantPrice;
-	_cashFlow    = 0.0;
+	_croissantPrice = croissantPrice;
+	_cashFlow       = 0.0;
+	_cMaster        = cMaster;
+	_fMaster        = fMaster;
 }
 
 float bakery::cakePrice()  // Getter: Cake Price
