@@ -17,11 +17,11 @@ class bakery {
 		float _cashFlow;  // Cumulative cash flow ($)for the day
 		// Master lists
 		list<customer> _custMaster;
-		list<fooditem> _foodMaster;
+		list<foodItem> _foodMaster;
 		// Equipment 
 		
 		// Other
-		tallysheet _tally;
+		tallySheet _tally;
 		
 	public:
 		bakery(float cakePrice, float croissantPrice);
@@ -30,17 +30,17 @@ class bakery {
 		float cashFlow(); // Getter: Cumulative Cash Flow
 		
 		void request(int foodItemType); // Adds funds and modifies fItem
-		void orderKits(int nCakes, int nCrois, ); // Removes funds, adds items to foodMaster
+		void orderKits(int nCakes, int nCrois ); // Removes funds, adds items to foodMaster
 
 		void writeRpt_daily(ostream &out);    // 
-		void writeRpt_customer(ostream &out, const &list<fooditem> _customerMaster);
-		void writeRpt_food(ostream &out, const &list<fooditem> _foodMaster);
-}
+		void writeRpt_customer(ostream &out, const &list<foodItem> _customerMaster);
+		void writeRpt_food(ostream &out, const &list<foodItem> _foodMaster);
+};
 
-bakery(float cakePrice, float croissantPrice)
+bakery::bakery(float cakePrice, float croissantPrice)
 {
 	_cakePrice      = cakePrice;
-	_croissantPrice = croissantPrice;
+	_croiPrice = croissantPrice;
 	_cashFlow    = 0.0;
 }
 
