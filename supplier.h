@@ -14,15 +14,17 @@ class supplier{
 		float  _priceCroiKit; // Price of a croissant kit
 		int    _deliveryMinT; // minimum time (in minutes) for a delivery to arrive
 		int    _deliveryDlyT; // Maximum time (in minutes) for a delivery to be delayed
-		
+		list<foodItem*> _pending; // List of food items yet to be delivered
+		// Pointers to master lists
+		list<customer>* _cMaster;
+		list<foodItem>* _fMaster;
 		// Probability entitiy
 		static bernoulli_distribution _bernDist;
 		
-		list<foodItem*> _pending; // List of food items yet to be delivered
-
 	public:
 		supplier(float priceCakeKit, float priceCroiKit, int deliveryMinT, int deliveryMaxT, double probOntime); // Supplier Ctor
-		void receiveOrder(int t, int ncakes, int ncrois); // receive order at time t
+		void receiveOrder(int time, int ncakes, int ncrois); // process order received at time time
+		void checkOrders();
 }
 
 supplier::supplier(float priceCakeKit, float priceCroiKit, int deliveryMinT, int deliveryMaxT, double probOntime)
@@ -34,7 +36,7 @@ supplier::supplier(float priceCakeKit, float priceCroiKit, int deliveryMinT, int
 	_bernDist(buy_croissant_chance);
 }
 
-void supplier::receiveKitOrder(int time, int ncakes, int ncrois, bakery bakery;) // 
+void supplier::processOrder(int time, int ncakes, int ncrois;)
 {
 	int deliveryT = time + ((int) bernolliDistro(generator))*_deliveryDlyT; // Time delivery will arrive
 	int newID = 0;
@@ -42,12 +44,14 @@ void supplier::receiveKitOrder(int time, int ncakes, int ncrois, bakery bakery;)
 	for(int ck = 0; ck < ncakes; ck++){
 		newID = _foodmaster.size() + 1;
 		_foodMaster.emplace_back(newID, 0, time, deliveryT, );
-		_pending.emplace_back(&_foodmaster.back())
+		_pending.emplace_front(&_foodmaster.back());
 	}
 
 	for(int cr = 0; ck < ncrois; cr++){
 		newID = _foodmaster.size() + 1;
 		_foodMaster.emplace_back(newID, 1, time, deliveryT);
-		_pending.emplace_back(&_foodmaster.back())
+		_pending.emplace_front(&_foodmaster.back());
 	}
 }
+
+
