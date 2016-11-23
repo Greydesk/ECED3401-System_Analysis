@@ -21,7 +21,7 @@ class bakery {
 		// Equipment
 		
 		// Other
-		tallysheet _tally;
+		tallySheet _tally;
 		
 	public:
 		bakery(float cakePrice, float croiPrice, list<customer>* cMaster, list<foodItem>* fMaster);
@@ -36,14 +36,14 @@ class bakery {
 		void orderKits(int nCakes, int nCrois); // Removes funds, adds items to foodMaster
 
 		void writeRpt_daily(ostream &out);    // 
-		void writeRpt_customer(ostream &out, const &list<fooditem> _customerMaster);
-		void writeRpt_food(ostream &out, const &list<fooditem> _foodMaster);
-}
+		void writeRpt_customer(ostream &out, const &list<foodItem> _cMaster);
+		void writeRpt_food(ostream &out, const &list<foodItem> _fMaster);
+};
 
-bakery(float cakePrice, float croissantPrice, list<customer>* cMaster, list<foodItem>* fMaster)
+bakery::bakery(float cakePrice, float croissantPrice, list<customer>* cMaster, list<foodItem>* fMaster)
 {
 	_cakePrice      = cakePrice;
-	_croissantPrice = croissantPrice;
+	_croiPrice = croissantPrice;
 	_cashFlow       = 0.0;
 	_cMaster        = cMaster;
 	_fMaster        = fMaster;
