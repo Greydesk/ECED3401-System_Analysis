@@ -49,19 +49,19 @@ foodItem::foodItem(int id, int fType) // Ctor for initial stock
 	_cID         = -1;
 }
 
-foodItem::foodItem(int id, int fType, int orderT, int cID) // Ctor for ordered stock w/o customer req
+foodItem::foodItem(int id, int fType, int orderT, int _delivT) // Ctor for ordered stock w/o customer req
 {
 	_id          = id;
 	_fType       = fType;
 	_orderT      = orderT;
-	_delivT      = -1;
+	_delivT      = delivT;
 	_prepStrT    = -1;
 	_prepEndT    = -1;
 	_relinquishT = -1;
 	_status      = -1;
-	_cID         = cID;
+	_cID         = -1;
 }
-/*
+
 foodItem::foodItem(int id, int fType, int orderT, int _delivT, int cID) // Ctor for ordered stock w/o customer req
 {
 	_id          = id;
@@ -74,7 +74,7 @@ foodItem::foodItem(int id, int fType, int orderT, int _delivT, int cID) // Ctor 
 	_status      = -1;
 	_cID         = cID;
 }
-*/
+
 int foodItem::id()
 {
 	return _id;
@@ -159,7 +159,7 @@ void foodItem::write(ostream &out)
 	out << "\tStart Preparation Time: " << _prepStrT    << " min" << endl;
 	out << "\tEnd Preparation Time:   " << _prepEndT    << " min" << endl;
 	out << "\tSold/Discarded Time:    " << _relinquishT << " min" << endl;
-	out << "\tSold/Discarded:         " << _status << " min" << endl; // Status 2 not
+	out << "\tSold/Discarded:         " << _status      << " min" << endl;
 	out << "\tCustomer ID Bought :    " << _cID                   << endl;
 }
 
@@ -167,5 +167,5 @@ void foodItem::write_Rpt(ostream &out)
 {
 	out << _id          << " " << _fType    << " " << _orderT   << " "
 	    << _delivT      << " " << _prepStrT << " " << _prepEndT << " "
-	    << _relinquishT << " " << _status << " " << _cID << endl;
+	    << _relinquishT << " " << status    << " " << endl;
 }
