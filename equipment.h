@@ -20,6 +20,7 @@ class equipment {
 		int cookedcroissant();			// Getter: cooked croissant process time
 		int rawccake();					// Getter: raw cake process time
 		int cookedcake();				// Getter: cooked cake process time
+		bool empty();					// Returns true if the deque is empty
 		void write(ostream &out);		// Write function for debugging
 		void write_rpt(ostream &out);	// Special write function for customer rpt
 };
@@ -50,4 +51,26 @@ int equipment::rawccake(){
 }
 int equipment::cookedcake(){
 	return _cakecookedtime;
+}
+bool equipment::empty(){
+	return _items.empty();
+}
+void equipment::write(ostream &out){
+	out << "ID: " << _id << endl;
+	out << "Slots: " << _slots << endl;
+	out << "Raw Croissant Process Time: " << _croissantrawtime << endl;
+	out << "Cooked Croissant Process Time: " << _croissantcookedtime << endl;
+	out << "Raw Cake Process Time: " << _cakerawtime << endl;
+	out << "Cooked Cake Process Time: " << _cakecookedtime << endl;
+	out << "Mu value for randomization: " << _random << endl;
+	out << "Items in deque: " << endl;
+	if (_items.empty()){
+		out << "    Empty" << endl;
+	} else {
+		deque<foodItem>::iterator f;
+		for(f = _items.begin(); f != _items.end(); ++f) {
+			out << "    " << f->id() << endl;
+		}
+	}
+
 }
