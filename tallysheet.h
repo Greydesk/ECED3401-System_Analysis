@@ -1,5 +1,3 @@
-//#include "bakery.h"
-
 class tallySheet{
 	private:
 		unsigned int _cakesOrdered;

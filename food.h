@@ -159,7 +159,7 @@ void foodItem::write(ostream &out)
 	out << "\tStart Preparation Time: " << _prepStrT    << " min" << endl;
 	out << "\tEnd Preparation Time:   " << _prepEndT    << " min" << endl;
 	out << "\tSold/Discarded Time:    " << _relinquishT << " min" << endl;
-	out << "\tSold/Discarded:         " << ((_relinquish == 2) ? -1 : _relinquishT) << " min" << endl; // Status 2 not
+	out << "\tSold/Discarded:         " << _status << " min" << endl; // Status 2 not
 	out << "\tCustomer ID Bought :    " << _cID                   << endl;
 }
 
@@ -167,6 +167,5 @@ void foodItem::write_Rpt(ostream &out)
 {
 	out << _id          << " " << _fType    << " " << _orderT   << " "
 	    << _delivT      << " " << _prepStrT << " " << _prepEndT << " "
-	    << _relinquishT << " " << ((_relinquish==2) ? -1 : _relinquishT) << " "
-	    << endl;
+	    << _relinquishT << " " << _status << " " << _cID << endl;
 }
