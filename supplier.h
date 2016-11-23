@@ -1,6 +1,13 @@
 #include <random>
+#include "food.h"
+#include "customer.h"
+#include "equipment.h"
 
-const double prob_fast_Delivery = 0.50;       // probability delivery arrives in minimum time
+
+const int MIN_DELIVERY_TIME = 1*60; // At least an hour...
+const int MAX_DELIVERY_TIME = 2*60; // ... Maybe two
+
+const double PROB_FAST_DELIVERY = 0.50;       // probability delivery arrives in minimum time
 random_device rd;                             // Seed for  random generator engine
 static default_random_engine generator(rd()); // random engine
 
@@ -12,7 +19,7 @@ class supplier{
 		float  _priceCakeKit; // Price of a cake kit
 		float  _priceCroiKit; // Price of a croissant kit
 		int    _deliveryMinT; // minimum time (in minutes) for a delivery to arrive
-		int    _deliveryDlyT; // Maximum time (in minutes) for a delivery to be delayed
+		int    _deliveryMaxT; // Maximum time (in minutes) for a delivery to be delayed
 		list<foodItem*> _pending; // List of food items yet to be delivered
 		// Pointers to master lists
 		list<customer>* _cMaster;
@@ -21,36 +28,43 @@ class supplier{
 		static bernoulli_distribution _bernDist;
 		
 	public:
-		supplier(float priceCakeKit, float priceCroiKit, int deliveryMinT, int deliveryMaxT, double probOntime); // Supplier Ctor
+		supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMaster, list<customer>* fMaster); // Supplier Ctor
 		void receiveOrder(int time, int ncakes, int ncrois); // process order received at time time
-		void checkOrders();
+		void presentOrders(int time,  );
 }
 
-supplier::supplier(float priceCakeKit, float priceCroiKit, int deliveryMinT, int deliveryMaxT, double probOntime)
+supplier::supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMaster, list<customer>* fMaster)
 {
 	_priceCakeKit = priceCakeKit;
 	_priceCroiKit = priceCroiKit;
-	_deliveryMinT = deliveryMinT;
-	_deliveryDlyT = deliveryDlylT;
-	_bernDist(buy_croissant_chance);
+	_deliveryMinT = MIN_DELIVERY_TIME;
+	_deliverymaxT = MAX_DELIVERY_TIME;
+	_cMaster      = cMaster;
+	_fMaster      = fMaster;
+	_bernDist(PROB_FAST_DELIVERY);
 }
 
-void supplier::processOrder(int time, int ncakes, int ncrois;)
+void supplier::receiveOrder(int time, int ncakes, int ncrois)
 {
-	int deliveryT = time + ((int) bernolliDistro(generator))*_deliveryDlyT; // Time delivery will arrive
+	int deliveryT = time + ((_bernDist(generator)) ? _deliveryMinT : _deliveryMaxT); // Time delivery will arrive
 	int newID = 0;
 	
 	for(int ck = 0; ck < ncakes; ck++){
-		newID = _foodmaster.size() + 1;
-		_foodMaster.emplace_back(newID, 0, time, deliveryT, );
-		_pending.emplace_front(&_foodmaster.back());
+		_fMaster.emplace_back(_fMaster->size() + 1, 0, time, deliveryT);
+		_pending.emplace_front(_fMaster->back());
 	}
 
 	for(int cr = 0; ck < ncrois; cr++){
 		newID = _foodmaster.size() + 1;
-		_foodMaster.emplace_back(newID, 1, time, deliveryT);
-		_pending.emplace_front(&_foodmaster.back());
+		_fMaster.emplace_back(newID, 1, time, deliveryT);
+		_pending.emplace_front(_fmaster->back());
 	}
 }
 
-
+void supplier::presentOrders(int time, equipment fridge, equipment freezer){
+	deque<foodItem*>::iterator = _pending.begin();
+	while (itr != _pending.end()){
+		if(*itr->deliveryTime() == time) fridge.add()
+	}
+    std::cout << ' ' << *it++;
+}
