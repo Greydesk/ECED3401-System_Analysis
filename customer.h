@@ -2,7 +2,7 @@
 #include <random>
 
 const double PROB_RETURN_FOR_ITEM       = 0.50; // probability customer returns as soon as item is completed
-const double PROB_RETURN_WHILE_LEAVING  = 0.50; // probability customer returns before leaving mall GIVEN not retuning as soon as item is completed
+const double PROB_RETURN_WHILE_LEAVING  = 0.50; // probability customer returns before leaving mall GIVEN not returning as soon as item is completed
 random_device rd1;
 random_device rd2;
 static default_random_engine generator1(rd1());
@@ -19,7 +19,7 @@ class customer {
 		int _purchaseT; // minutes since store opening that purchase occurs, -1 if NAN
 		
 	public:
-		customer(int id, int foodID = -1, int craving, int arrivalT, ); // Ctor
+		customer(int id, int craving, int arrivalTime, int loiterTime, int foodID = -1); // Ctor
 		int id();        // Getter: ID
 		int foodID();    // Getter: food ID
 		int craving();   // Getter: craving
@@ -28,7 +28,7 @@ class customer {
 		int returnT();   // Getter: loiterTime
 		int purchaseT(); // Getter: purchase time
 
-		void returnT(int foodPrepEndT) // Setter: return time based on foodItem PrepEndT
+		void returnT(int foodPrepEndT); // Setter: return time based on foodItem PrepEndT
 		void foodID(int f_id);   // Setter: food ID
 		void purchaseT(int p_t); // Setter: purchase time
 		
@@ -36,14 +36,14 @@ class customer {
 		void writeRpt(ostream &out); // Special write function for customer rpt
 };
 
-customer::customer(int id, int craving, int arrivalTime, int loiterTime){
-	int _id           = id;
-	int _foodID       = -1;
-	int _craving      = craving;
-	int _arrivalTime  = arrivalT;
-	int _loiterT      = loiterT;
-	int _returnT      = -1;
-	int _purchaseT    = -1;	
+customer::customer(int id, int craving, int arrivalTime, int loiterTime, int foodID){
+	_id = id;
+	_foodID = foodID;
+	_craving = craving;
+	_arrivalT = arrivalTime;
+	_loiterT  = loiterTime;
+	_returnT = -1;
+	_purchaseT = -1;
 }
 
 int customer::id(){
@@ -65,7 +65,9 @@ int customer::arrivalT(){
 int customer::loiterT(){
 	return _loiterT;
 }
-
+int customer::returnT() {
+	return _returnT;
+}
 int customer::purchaseT(){
 	return _purchaseT;
 }
@@ -74,7 +76,7 @@ void customer::foodID(int f_id){
 	_foodID = f_id;
 }
 
-int customer::returnT(int foodPrepEndT)
+void customer::returnT(int foodPrepEndT)
 {
 	// only care if it may be done in time, default returnT value already appropriate
 	if((_arrivalT + _loiterT) <= foodPrepEndT){ // Will be done in time
@@ -103,7 +105,7 @@ void customer::write(ostream &out)
 	out << "\tPurchase Time:       " << _purchaseT << " min"    << endl << endl;
 }
 
-void customer::write_rpt(ostream &out)
+void customer::writeRpt(ostream &out)
 {
 	out << _id      << " " << _arrivalT << " " << _loiterT   << " "
 	    << _craving << " " << _foodID   << " " << _purchaseT << endl;
