@@ -4,11 +4,8 @@
 /*************************************************** BAKERY CLASS *****************************************************/
 /**********************************************************************************************************************/
 #include <iostream>
-<<<<<<< HEAD
-=======
 #include <fstream>
 #include "customer.h"
->>>>>>> branch 'master' of https://github.com/Greydesk/ECED3401-System_Analysis.git
 #include "food.h"
 #include "customer.h"
 #include "equipment.h"
@@ -37,20 +34,14 @@ class bakery {
 		// Operation functions
 		void request(int foodItemType); // process customer request, 
 		void order();
-		
 		void orderKits(int nCakes, int nCrois); // Removes funds, adds items to foodMaster
-
-<<<<<<< HEAD
 		void writeRpt_daily(ostream &out);    // 
 		void writeRpt_customer(ostream &out, const &list<foodItem> _cMaster);
 		void writeRpt_food(ostream &out, const &list<foodItem> _fMaster);
-};
-=======
 		void writeRpt_daily(ofstream &out);    // daily report
 		void writeRpt_customer(ofstream &out, const &list<fooditem> _customerMaster);
 		void writeRpt_food(ofstream &out, const &list<fooditem> _foodMaster);
-}
->>>>>>> branch 'master' of https://github.com/Greydesk/ECED3401-System_Analysis.git
+};
 
 bakery::bakery(float cakePrice, float croissantPrice, list<customer>* cMaster, list<foodItem>* fMaster)
 {
@@ -83,7 +74,7 @@ void deposit() // Add deposit ammount to cumulative cash flow
 
 void withdraw(float wthAmt); // Subtract deposit ammount from cumulative cash flow
 
-void report_daily(ofstream &out)
+void bakery::writeRpt_daily(ofstream &out)
 {
 	_tally.writeRpt(out);
 }
