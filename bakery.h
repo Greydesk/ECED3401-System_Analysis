@@ -4,8 +4,8 @@
 /*************************************************** BAKERY CLASS *****************************************************/
 /**********************************************************************************************************************/
 #include <iostream>
-#include "customer.h"
 #include "food.h"
+#include "customer.h"
 #include "equipment.h"
 #include "tallysheet.h"
 #include "supplier.h"

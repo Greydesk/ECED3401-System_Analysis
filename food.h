@@ -34,7 +34,7 @@ class foodItem{
 		void cID(int buyid);               // Setter: ID     of customer holding claim over item
 		void write(ostream &out);     // General write method
 		void write_Rpt(ostream &out); // Specialized write method for food report
-}
+};
 
 foodItem::foodItem(int id, int fType) // Ctor for initial stock
 {
@@ -49,19 +49,19 @@ foodItem::foodItem(int id, int fType) // Ctor for initial stock
 	_cID         = -1;
 }
 
-foodItem::foodItem(int id, int fType, int orderT, int _delivT) // Ctor for ordered stock w/o customer req
+foodItem::foodItem(int id, int fType, int orderT, int cID) // Ctor for ordered stock w/o customer req
 {
 	_id          = id;
-	_fType       = -1;
+	_fType       = fType;
 	_orderT      = orderT;
-	_delivT      = delivT;
+	_delivT      = -1;
 	_prepStrT    = -1;
 	_prepEndT    = -1;
 	_relinquishT = -1;
 	_status      = -1;
-	_cID         = -1;
+	_cID         = cID;
 }
-
+/*
 foodItem::foodItem(int id, int fType, int orderT, int _delivT, int cID) // Ctor for ordered stock w/o customer req
 {
 	_id          = id;
@@ -74,7 +74,7 @@ foodItem::foodItem(int id, int fType, int orderT, int _delivT, int cID) // Ctor 
 	_status      = -1;
 	_cID         = cID;
 }
-
+*/
 int foodItem::id()
 {
 	return _id;
