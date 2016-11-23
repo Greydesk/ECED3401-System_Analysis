@@ -51,7 +51,7 @@ bakery(float cakePrice, float croissantPrice, list<customer>* cMaster, list<food
 
 float bakery::cakePrice()  // Getter: Cake Price
 {
-	return _cakePrice
+	return _cakePrice;
 }
 
 float bakery::croiPrice() // Getter: Croissant Price
@@ -59,7 +59,7 @@ float bakery::croiPrice() // Getter: Croissant Price
 	return _croiPrice;
 }
 
-float cashFlow() // Getter: Cumulative Cash Flow
+float bakery::cashFlow() // Getter: Cumulative Cash Flow
 {
 	return _cashFlow;
 }
