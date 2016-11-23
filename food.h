@@ -1,6 +1,5 @@
 // Create food class and functions
 #include <iostream>
-#include <time>
 
 class foodItem{
 	private:
