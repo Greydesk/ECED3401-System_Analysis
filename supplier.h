@@ -1,8 +1,18 @@
+/******************************************************************************/
+/****************************** SUPPLIER CLASS ********************************/
+/******************************************************************************/
+
+/*
+	Notes:
+		- 
+*/
+
 #include <random>
-#include "food.h"
+#include "foodItem.h"
 #include "customer.h"
 #include "equipment.h"
 
+using namespace std;
 
 const int MIN_DELIVERY_TIME = 1*60; // At least an hour...
 const int MAX_DELIVERY_TIME = 2*60; // ... Maybe two
@@ -11,9 +21,10 @@ const double PROB_FAST_DELIVERY = 0.50;       // probability delivery arrives in
 random_device rd;                             // Seed for  random generator engine
 static default_random_engine generator(rd()); // random engine
 
-/************************************************************************************************************************/
-/*************************************************** SUPPLIER CLASS *****************************************************/
-/************************************************************************************************************************/
+/******************************************************************************/
+/***************************** CLASS STRUCTURE ********************************/
+/******************************************************************************/
+
 class supplier{
 	private:
 		float  _priceCakeKit; // Price of a cake kit
@@ -33,7 +44,11 @@ class supplier{
 		void presentOrders(int time,  );
 }
 
-supplier::supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMaster, list<customer>* fMaster)
+/******************************************************************************/
+/********************************** CTOR **************************************/
+/******************************************************************************/
+
+supplier::supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMaster, list<customer>* fMaster): _pending()
 {
 	_priceCakeKit = priceCakeKit;
 	_priceCroiKit = priceCroiKit;
@@ -43,6 +58,14 @@ supplier::supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMast
 	_fMaster      = fMaster;
 	_bernDist(PROB_FAST_DELIVERY);
 }
+
+/******************************************************************************/
+/********************************* GETTERS ************************************/
+/******************************************************************************/
+
+/******************************************************************************/
+/********************************* SETTERS ************************************/
+/******************************************************************************/
 
 void supplier::receiveOrder(int time, int ncakes, int ncrois)
 {
@@ -68,3 +91,7 @@ void supplier::presentOrders(int time, equipment fridge, equipment freezer){
 	}
     std::cout << ' ' << *it++;
 }
+
+/******************************************************************************/
+/********************************* WRITERS ************************************/
+/******************************************************************************/
