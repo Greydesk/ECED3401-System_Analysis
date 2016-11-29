@@ -15,6 +15,13 @@
 using namespace std;
 
 #include "bakery.h"
+#include "customer.h"
+#include "equipment.h"
+#include "foodItem.h"
+#include "supplier.h"
+#include "tallySheet.h"
+
+#define CLOSING_TIME 16*60
 
 // Include all necessary standard headers...
 // ... and custom headers
@@ -26,13 +33,62 @@ using namespace std;
 int main(void)
 {
   // Initialize variables
+  list<customer> custMaster;
+  list<foodItem> foodMaster;
+  list<customer*> mall; // Store loiterers that may will return
+  
+  bakery();
+  
   
   // Read Input files
   
   // Open-up shop
   // Iterate minute-by-minute through day
-    // Check input files
-    // React appropriately
+  for(int t = 1; t<=CLOSING_TIME; t++){
+  	// Trash expiried food
+  	
+  	// End prep time on cooled items
+	
+	// Form queue from returning customers in mall...
+	
+	// ... and then newly arriving customers
+	
+	// If there are customers queued, sell possible items
+	 
+	// Transfer baked items into storage locations
+	
+	// Sell all possible newly ready items
+	
+	// Begin baking raw items
+	
+	// Receive and store orders
+	
+	// Begin baking all possible newly arrived items
+	
+	// If queued customers remain, transfer them to mall if they will return...
+	
+	// ... otherwise dismiss them outright.
+	
+	// 
+	
+	// IF AN ORDER COULD ARRIVE IN TIME TO BE PROCESSED AND SOLD
+	
+		// Order items if the number of items on order is less than the empty storage slots plus 
+ 	
+	}
+  		
+	// Trash remaining stock; Use CLOSING_TIME as necessary
+		
+    // Write reports
   
-  // Close-up Shop  
+  	// close i/o files
 }
+
+
+
+
+
+
+
+
+

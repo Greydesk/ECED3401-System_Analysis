@@ -1,5 +1,23 @@
 // Create food class and functions
+
+/******************************************************************************/
+/***************************** FOOD ITEM CLASS ********************************/
+/******************************************************************************/
+
+/*
+	Notes:
+		- Much information can be inferred form the variable values
+			- ((cID is set)^(time + prepStart )) --> ()
+			- () --> ()
+*/
 #include <iostream>
+
+using namespace std;
+
+#define HOLDTIME 15
+/******************************************************************************/
+/***************************** CLASS STRUCTURE ********************************/
+/******************************************************************************/
 
 class foodItem{
 	private:
@@ -14,8 +32,11 @@ class foodItem{
 		int _cID;         // ID of customer who holds claim over item , -1 by default/discarded
 
 	public:
-		foodItem(int id, int fType);
-		foodItem(int id, int fType, int orderT, int cID);
+		// Ctors
+		foodItem(int id, int fType); // For initial stock
+		foodItem(int id, int fType, int orderT, int _delivT); // For ordered stock w/o customer req
+		foodItem(int id, int fType, int orderT, int _delivT, int cID); // For ordered stock w/ customer req
+		// Getters
 		int id();          // Getter: ID     of food item
 		int fType();       // Getter: Type   of food item
 		int orderT();      // Getter: Time   of kit order
@@ -25,21 +46,29 @@ class foodItem{
 		int relinquishT(); // Getter: Time   of food item relinquishing
 		int status();      // Getter: Status of food item
 		int cID();         // Getter: ID     of customer holding claim over item
+		// Setters
 		void orderT(int orderT);           // Setter: Time   of kit order
 		void delivT(int delivT);           // Setter: Time   of kit delivery
 		void prepStrT(int prepStrT);       // Setter: Time   of food prep start
 		void prepEndT(int prepEndT);       // Setter: Time   of food prep end
 		void relinquishT(int relinquishT); // Setter: Time   of food item relinquishing
 		void status(int status);           // Setter: Status of food item
-		void cID(int buyid);               // Setter: ID     of customer holding claim over item
+		void cID(int cID);               // Setter: ID     of customer holding claim over item
+		// Descriptive Functions
+		int isReserved(void); // returns customer ID if reserved, -1 otherwise
+		// Write Functions
 		void write(ostream &out);     // General write method
 		void write_Rpt(ostream &out); // Specialized write method for food report
 };
 
-foodItem::foodItem(int id, int fType) // Ctor for initial stock
+/******************************************************************************/
+/********************************** CTOR **************************************/
+/******************************************************************************/
+
+foodItem::foodItem(int id, int fType) // For initial stock
 {
 	_id          = id;
-	_fType       = -1;
+	_fType       = fType;
 	_orderT      = -1;
 	_delivT      = -1;
 	_prepStrT    = -1;
@@ -49,7 +78,7 @@ foodItem::foodItem(int id, int fType) // Ctor for initial stock
 	_cID         = -1;
 }
 
-foodItem::foodItem(int id, int fType, int orderT, int _delivT) // Ctor for ordered stock w/o customer req
+foodItem::foodItem(int id, int fType, int orderT, int delivT) // For ordered stock w/o customer req
 {
 	_id          = id;
 	_fType       = fType;
@@ -62,10 +91,10 @@ foodItem::foodItem(int id, int fType, int orderT, int _delivT) // Ctor for order
 	_cID         = -1;
 }
 
-foodItem::foodItem(int id, int fType, int orderT, int _delivT, int cID) // Ctor for ordered stock w/o customer req
+foodItem::foodItem(int id, int fType, int orderT, int delivT, int cID) // For ordered stock w customer req
 {
 	_id          = id;
-	_fType       = -1;
+	_fType       = fType;
 	_orderT      = orderT;
 	_delivT      = delivT;
 	_prepStrT    = -1;
@@ -74,6 +103,10 @@ foodItem::foodItem(int id, int fType, int orderT, int _delivT, int cID) // Ctor 
 	_status      = -1;
 	_cID         = cID;
 }
+
+/******************************************************************************/
+/********************************* GETTERS ************************************/
+/******************************************************************************/
 
 int foodItem::id()
 {
@@ -119,6 +152,10 @@ int foodItem::cID()
 	return _cID;
 }
 
+/******************************************************************************/
+/********************************* SETTERS ************************************/
+/******************************************************************************/
+
 void foodItem::orderT(int orderT)
 {
 	_orderT = orderT;
@@ -149,6 +186,14 @@ void foodItem::status(int status)
 	_status = status;
 }
 
+void foodItem::cID(int cID)
+{
+	_cID = cID;
+}
+/******************************************************************************/
+/**************************** WRITE FUNCTIONS *********************************/
+/******************************************************************************/
+
 void foodItem::write(ostream &out)
 {
 	out << "Food Item" << endl;
@@ -167,5 +212,5 @@ void foodItem::write_Rpt(ostream &out)
 {
 	out << _id          << " " << _fType    << " " << _orderT   << " "
 	    << _delivT      << " " << _prepStrT << " " << _prepEndT << " "
-	    << _relinquishT << " " << status    << " " << endl;
+	    << _relinquishT << " " << _status   << " " << endl;
 }

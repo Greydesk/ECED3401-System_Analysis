@@ -6,6 +6,7 @@
 
 #include <deque>
 #include "foodItem.h"
+
 /*
 	Notes:
 		- default values for time variables indicate they are irrelevant within
@@ -22,13 +23,11 @@ class equipment {
 	private:
 		int _id;                 // Unique ID number, sequentially designated
 		int _slots;              // How many process slots the equipment has
-		int _croiRawLT;          // Lifetime of a raw croissant
-		int _cakeRawLT;          // Lifetime of a raw cake
-		int _croiProcT;          // Processing time of a croissant
-		int _cakeProcT;          // Processing time of a croissant
-		int _croiReadyLT;        // Shelf life of a ready croissant
-		int _cakeReadyLT;        // Shelf life of a ready cake
-		deque<foodItem*> _items; // All of the items in this piece of equipment
+		deque<foodItem*>  _items; // All of the items in this piece of equipment
+		deque<foodItem*>* _output_location;
+		list<foodItem>*   _food_master;
+		list<customer>*   _customer_master;
+		
 		
 	public:
 		equipment(int id, int slots=0, int croiRawLT=-1, int cakeRawLT=-1, int croiProcT=-1, int cakeProcTime=-1, int croiReadyLT=-1, int cakeReadyLT=-1); // Ctor
