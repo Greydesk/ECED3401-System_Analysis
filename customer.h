@@ -4,7 +4,8 @@
 
 
 /*
-	Notes: All time attributes are in terms of minutes since store opening
+	Notes:
+		- All time attributes are in terms of minutes since store opening
 */
 
 
@@ -12,7 +13,7 @@
 #include <random>
 #include <bits/random.h>
 
-#include "foodItem.h"
+#include "FoodItem.h"
 
 const double PROB_RETURN_FOR_ITEM       = 0.50; // probability customer returns as soon as item is completed
 const double PROB_RETURN_WHILE_LEAVING  = 0.50; // probability customer returns before leaving mall GIVEN not returning as soon as item is completed
@@ -25,150 +26,138 @@ static default_random_engine generator2(rd2());
 /***************************** CLASS STRUCTURE ********************************/
 /******************************************************************************/
  
-class customer {
+class Customer {
 	private:
-		int _id;        // Unique ID number, sequentially designated
-		int _foodID;    // Unique ID number of food item recieved, -1 if NAN
-		int _craving;   // Food type customer craves: 0 = cake, 1 = croissant
-		int _arrivalT;  // Time that customer arrived
-		int _loiterT;   // Minutes customer intends on staying in mall
-		int _returnT;   // Time when customer returns to bakery, -1 if NAN
-		int _purchaseT; // Time that purchase occurs, -1 if NAN
+		const int _customer_id;   // Unique ID number, sequentially designated
+		int _food_id;             // Unique ID number of food item recieved, -1 if NAN
+		int _craving;             // Food type customer craves: 0 = cake, 1 = croissant
+		int _arrival_time;        // Time that customer arrived
+		int _loiter_time;         // Minutes customer intends on staying in mall
+		int _return_time;         // Time when customer returns to bakery, -1 if NAN
+		int _purchase_time;       // Time that purchase occurs, -1 if NAN
 		
 	public:
 		// Ctor
-		customer(int id, int craving, int arrivalT, int loiterT);
-		// Getters
-		int id();        // Getter: ID
-		int foodID();    // Getter: food ID
-		int craving();   // Getter: craving
-		int arrivalT();  // Getter: arrival time
-		int loiterT();   // Getter: loiter time
-		int returnT();   // Getter: loiterTime
-		int purchaseT(); // Getter: purchase time
-		// Setters
-		void foodID(int foodID);        // Setter: food ID
-		int  returnT(int foodPrepEndT); // Setter: return time (-1 if no return)
-		void purchaseT(int purchaseT);  // Setter: purchase time
-		// Operational functions
-		void purchase(int time, foodItem *item);
+		Customer(int customer_id, int craving, int arrival_time, int loiter_time);
+		// Accessors
+		int customer_id();   // Getter: ID
+		int food_id();       // Getter: food ID
+		int craving();       // Getter: craving
+		int arrival_time();  // Getter: arrival time
+		int loiter_time();   // Getter: loiter time
+		int return_time();   // Getter: loiter_timeime
+		int purchase_time(); // Getter: purchase time
+		// Mutators
+		void food_id(int food_id);                // Setter: food ID
+		int  return_time(int food_prep_end_time); // Setter: return time (-1 if no return)
+		void purchase_time(int purchase_time);    // Setter: purchase time
 		// Write Functions
-		void write(ostream &out);    // Write function for debugging
-		void writeRpt(ostream &out); // Special write function for customer rpt
+		void Write(ostream &out);       // Write function for debugging
+		void WriteReport(ostream &out); // Special write function for customer rpt
 };
 
 /******************************************************************************/
 /********************************** CTOR **************************************/
 /******************************************************************************/
 
-customer::customer(int id, int craving, int arrivalT, int loiterT){
-	_id        = id;
-	_foodID    = -1;
-	_craving   = craving;
-	_arrivalT  = arrivalT;
-	_loiterT   = loiterT;
-	_returnT   = -1;
-	_purchaseT = -1;
+Customer::Customer(int customer_id, int craving, int arrival_time, int loiter_time)
+: _customer_id(customer_id)
+{
+	_food_id       = -1;
+	_craving       = craving;
+	_arrival_time  = arrival_time;
+	_loiter_time   = loiter_time;
+	_return_time   = -1;
+	_purchase_time = -1;
 }
 
 /******************************************************************************/
 /********************************* GETTERS ************************************/
 /******************************************************************************/
 
-int customer::id()
+int Customer::customer_id()
 {
-	return _id;
+	return _customer_id;
 }
 
-int customer::foodID()
+int Customer::food_id()
 {
-	return _foodID;
+	return _food_id;
 }
 
-int customer::craving()
+int Customer::craving()
 {
 	return _craving;
 }
 
-int customer::arrivalT()
+int Customer::arrival_time()
 {
-	return _arrivalT;
+	return _arrival_time;
 }
 
-int customer::loiterT()
+int Customer::loiter_time()
 {
-	return _loiterT;
+	return _loiter_time;
 }
 
-int customer::returnT()
+int Customer::return_time()
 {
-	return _returnT;
+	return _return_time;
 }
 
-int customer::purchaseT()
+int Customer::purchase_time()
 {
-	return _purchaseT;
+	return _purchase_time;
 }
 
 /******************************************************************************/
 /********************************* SETTERS ************************************/
 /******************************************************************************/
 
-void customer::foodID(int foodID)
+void Customer::food_id(int food_id)
 {
-	_foodID = foodID;
+	_food_id = food_id;
 }
 
-int customer::returnT(int foodPrepEndT)
+int Customer::return_time(int food_prep_end_time)
 {
-	// only care if it may be done in time, default returnT value already appropriate
-	if((_arrivalT + _loiterT) <= foodPrepEndT){ // Will be done in time
+	// only care if it may be done in time, default return_time value already appropriate
+	if((_arrival_time + _loiter_time) <= food_prep_end_time){ // Will be done in time
 		static bernoulli_distribution bernDist1(PROB_RETURN_FOR_ITEM);
    		static bernoulli_distribution bernDist2(PROB_RETURN_WHILE_LEAVING);
    	
    		if(bernDist1(generator1)){
-		    _returnT = foodPrepEndT;         // Will return when item is ready
-		} else if(bernDist2(generator2)){
-			_returnT = _arrivalT + _loiterT; // Will return while leaving
+		    _return_time = food_prep_end_time;         // Will return when item is ready
+		} else if(bernDist2(generator2)) {
+			_return_time = _arrival_time + _loiter_time; // Will return while leaving
 		}
-		// default returnT value appropriate otherwise
+		// default return_time value appropriate otherwise
 	}
-	return _returnT; // return when customer has decided to return or -1
+	return _return_time; // return when customer has decided to return or -1
 }
 
-void customer::purchaseT(int purchaseT)
+void Customer::purchase_time(int purchase_time)
 {
-	_purchaseT = purchaseT;
-}
-
-/******************************************************************************/
-/************************** OPERATIONAL FUNCTIONS *****************************/
-/******************************************************************************/
-
-void customer::purchase(int time, foodItem *item)
-{
-	item.relinquishT(time);
-	item.cID(_id);
-	_purchaseT = time;
+	_purchase_time = purchase_time;
 }
 
 /******************************************************************************/
 /********************************* WRITERS ************************************/
 /******************************************************************************/
 
-void customer::write(ostream &out)
+void Customer::Write(ostream &out)
 {
 	out << "Customer" << endl;
-	out << "\tCustomer ID:         " << _id                  << endl;
-	out << "\tArrival Time:        " << _arrivalT  << " min" << endl;
-	out << "\tSpend T:             " << _loiterT   << " min" << endl;
-	out << "\tRequested Food Type: " << _craving             << endl;
-	out << "\tFood ID:             " << _foodID              << endl;
-	out << "\tPurchase Time:       " << _purchaseT << " min" << endl << endl;
+	out << "\tCustomer ID:         " << _customer_id             << endl;
+	out << "\tArrival Time:        " << _arrival_time  << " min" << endl;
+	out << "\tSpend T:             " << _loiter_time   << " min" << endl;
+	out << "\tRequested Food Type: " << _craving                 << endl;
+	out << "\tFood ID:             " << _food_id                 << endl;
+	out << "\tPurchase Time:       " << _purchase_time << " min" << endl;
+	out << endl;
 }
 
-void customer::writeRpt(ostream &out)
+void Customer::WriteReport(ostream &out)
 {
-	out << _id      << " " << _arrivalT << " " << _loiterT   << " "
-	    << _craving << " " << _foodID   << " " << _purchaseT << endl;
+	out << _customer_id << " " << _arrival_time << " " << _loiter_time << " " << _craving << " " << _food_id << " " << _purchase_time << endl;
 }

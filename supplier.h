@@ -8,9 +8,7 @@
 */
 
 #include <random>
-#include "foodItem.h"
-#include "customer.h"
-#include "equipment.h"
+#include "Customer.h"
 
 using namespace std;
 

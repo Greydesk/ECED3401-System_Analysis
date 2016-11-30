@@ -14,146 +14,140 @@ using namespace std;
 /***************************** CLASS STRUCTURE ********************************/
 /******************************************************************************/
 
-class tallySheet{
+class TallySheet{
 	private:
-		unsigned int _cakesOrdered;   // Number of cakes ordered
-		unsigned int _croisOrdered;   // Number of croissants ordered
-		unsigned int _cakesDelivered; // Number of cakes delivered
-		unsigned int _croisDelivered; // Number of croissants delivered
-		unsigned int _cakesProduced;  // Number of cakes produced
-		unsigned int _croisProduced;  // Number of croissants produced
-		unsigned int _cakesSold;      // Number of cakes sold
-		unsigned int _croisSold;      // Number of croissants sold
-		unsigned int _cakesDiscarded; // Number of cakes discarded
-		unsigned int _croisDiscarded; // Number of croissants discarded
-		unsigned int _cakesMissed;    // Number of cakes missed
-		unsigned int _croisMissed;    // Number of croissants missed
+		unsigned int _cakes_ordered;        // Number of cakes ordered
+		unsigned int _croissants_ordered;   // Number of croissants ordered
+		unsigned int _cakes_delivered;      // Number of cakes delivered
+		unsigned int _croissants_delivered; // Number of croissants delivered
+		unsigned int _cakes_produced;       // Number of cakes produced
+		unsigned int _croissants_produced;  // Number of croissants produced
+		unsigned int _cakes_sold;           // Number of cakes sold
+		unsigned int _croissants_sold;      // Number of croissants sold
+		unsigned int _cakes_discarded;      // Number of cakes discarded
+		unsigned int _croissants_discarded; // Number of croissants discarded
+		unsigned int _cakes_missed;         // Number of cakes missed
+		unsigned int _croissants_missed;    // Number of croissants missed
 
 	private:
 		// Ctor
-		tallySheet(); // tallysheet Ctor
-		// Operational 
-		void ordered(int fType);   // Increment appropriate order     tally
-		void delivered(int fType); // Increment appropriate delivery  tally
-		void produced(int fType);  // Increment appropriate produced  tally
-		void sold(int fType);      // Increment appropriate sold      tally
-		void discarded(int fType); // Increment appropriate discarded tally
-		void missed(int fType);    // Increment appropriate missed    tally
-		
-		void reset(void); // Reset all tally counters
-		
-		void write_Rpt(ostream &out); // write Daily report to out
+		TallySheet(); // tallysheet Ctor
+		// Operational Functions
+		void Ordered(int food_type);   // Increment appropriate order     tally
+		void Delivered(int food_type); // Increment appropriate delivery  tally
+		void Produced(int food_type);  // Increment appropriate produced  tally
+		void Sold(int food_type);      // Increment appropriate sold      tally
+		void Discarded(int food_type); // Increment appropriate discarded tally
+		void Missed(int food_type);    // Increment appropriate missed    tally
+		// Misc
+		void Reset(void); // Reset all tally counters
+		//Writer Functions
+		void WriteReport(ostream &out); // write Daily report to out
 };
 
 /******************************************************************************/
 /********************************** CTOR **************************************/
 /******************************************************************************/
 
-tallySheet::tallySheet() // tallysheet Ctor
+TallySheet::TallySheet() // tallysheet Ctor
 {
-	_cakesOrdered   = 0;
-	_croisOrdered   = 0;
-	_cakesDelivered = 0;
-	_croisDelivered = 0;
-	_cakesProduced  = 0;
-	_croisProduced  = 0;
-	_cakesSold      = 0;
-	_croisSold      = 0;
-	_cakesDiscarded = 0;
-	_croisDiscarded = 0;
-	_cakesMissed    = 0;
-	_croisMissed    = 0;
+	_cakes_ordered        = 0;
+	_croissants_ordered   = 0;
+	_cakes_delivered      = 0;
+	_croissants_delivered = 0;
+	_cakes_produced       = 0;
+	_croissants_produced  = 0;
+	_cakes_sold           = 0;
+	_croissants_sold      = 0;
+	_cakes_discarded      = 0;
+	_croissants_discarded = 0;
+	_cakes_missed         = 0;
+	_croissants_missed    = 0;
 }
 
 /******************************************************************************/
-/********************************* GETTERS ************************************/
+/************************** OPERATIONAL FUNCTIONS *****************************/
 /******************************************************************************/
 
-// None necessary
-
-/******************************************************************************/
-/********************************* SETTERS ************************************/
-/******************************************************************************/
-
-void tallySheet::ordered(int fType) // Increment appropriate order tally
+void TallySheet::Ordered(int food_type) // Increment appropriate order tally
 {
-	(fType == 0) ? _cakesOrdered++ : _croisOrdered++;
+	(food_type == 0) ? _cakes_ordered++ : _croissants_ordered++;
 }
 
-void tallySheet::delivered(int fType) // Increment appropriate delivery tally
+void TallySheet::Delivered(int food_type) // Increment appropriate delivery tally
 {
-	(fType == 0) ? _cakesDelivered++ : _croisDelivered++;
+	(food_type == 0) ? _cakes_delivered++ : _croissants_delivered++;
 }
 
-void tallySheet::produced(int fType) // Increment appropriate produced tally
+void TallySheet::Produced(int food_type) // Increment appropriate produced tally
 {
-	(fType == 0) ? _cakesProduced++ : _croisProduced++;
+	(food_type == 0) ? _cakes_produced++ : _croissants_produced++;
 }
 
-void tallySheet::sold(int fType) // Increment appropriate sold tally
+void TallySheet::Sold(int food_type) // Increment appropriate sold wtally
 {
-	(fType == 0) ? _cakesSold++ : _croisSold++;
+	(food_type == 0) ? _cakes_sold++ : _croissants_sold++;
 }
 
-void tallySheet::discarded(int fType) // Increment appropriate discarded tally
+void TallySheet::Discarded(int food_type) // Increment appropriate discarded tally
 {
-	(fType == 0) ? _cakesDiscarded++ : _croisDiscarded++;
+	(food_type == 0) ? _cakes_discarded++ : _croissants_discarded++;
 }
 
-void tallySheet::missed(int fType) // Increment appropriate missed tally
+void TallySheet::Missed(int food_type) // Increment appropriate missed tally
 {
-	(fType == 0) ? _cakesMissed++ : _croisMissed++;
+	(food_type == 0) ? _cakes_missed++ : _croissants_missed++;
 }
 
-void tallySheet::reset(void) // Reset all tally counters
+void TallySheet::Reset(void) // Reset all tally counters
 {
-	_cakesOrdered   = 0;
-	_croisOrdered   = 0;
-	_cakesDelivered = 0;
-	_croisDelivered = 0;
-	_cakesProduced  = 0;
-	_croisProduced  = 0;
-	_cakesSold      = 0;
-	_croisSold      = 0;
-	_cakesDiscarded = 0;
-	_croisDiscarded = 0;
-	_cakesMissed    = 0;
-	_croisMissed    = 0;
+	_cakes_ordered        = 0;
+	_croissants_ordered   = 0;
+	_cakes_delivered      = 0;
+	_croissants_delivered = 0;
+	_cakes_produced       = 0;
+	_croissants_produced  = 0;
+	_cakes_sold           = 0;
+	_croissants_sold      = 0;
+	_cakes_discarded      = 0;
+	_croissants_discarded = 0;
+	_cakes_missed         = 0;
+	_croissants_missed    = 0;
 }
 
 /******************************************************************************/
 /********************************* WRITERS ************************************/
 /******************************************************************************/
 
-void tallySheet::write_Rpt(ostream &out) // write Daily report to out
+void TallySheet::WriteReport(ostream &out) // write Daily report to out
 {
-	out << "Ordered raw kits: "   << (_cakesOrdered + _croisOrdered)    << endl;
-	out << "\t#cake "             << _cakesOrdered                      << endl;
-	out << "\t#croissant "        << _croisOrdered                      << endl;
+	out << "Ordered raw kits: "   << (_cakes_ordered + _croissants_ordered)     << endl;
+	out << "\t#cake "             << _cakes_ordered                             << endl;
+	out << "\t#croissant "        << _croissants_ordered                        << endl;
 	out << endl;
 
-	out << "Delivered raw kits: " << (_cakesDelivered +_croisDelivered) << endl;
-	out << "\t#cake "             << _cakesDelivered                    << endl;
-	out << "\t#croissant "        << _croisDelivered                    << endl;
+	out << "Delivered raw kits: " << (_cakes_delivered + _croissants_delivered) << endl;
+	out << "\t#cake "             << _cakes_delivered                           << endl;
+	out << "\t#croissant "        << _croissants_delivered                      << endl;
 	out << endl;
 
-	out << "Produced: "           << (_cakesProduced + _croisProduced)  << endl;
-	out << "\t#cake "             << _cakesProduced                     << endl;
-	out << "\t#croissant "        << _croisProduced                     << endl;
+	out << "Produced: "           << (_cakes_produced + _croissants_produced)   << endl;
+	out << "\t#cake "             << _cakes_produced                            << endl;
+	out << "\t#croissant "        << _croissants_produced                       << endl;
 	out << endl;
 	
-	out << "Sold: "               << (_cakesSold + _croisSold)          << endl;
-	out << "\t#cake "             << _cakesSold                         << endl;
-	out << "\t#croissant "        << _croisSold                         << endl;
+	out << "Sold: "               << (_cakes_sold + _croissants_sold)           << endl;
+	out << "\t#cake "             << _cakes_sold                                << endl;
+	out << "\t#croissant "        << _croissants_sold                           << endl;
 	out << endl;
 	
-	out << "Discarded: "          << (_cakesDiscarded +_croisDiscarded) << endl;
-	out << "\t#cake "             << _cakesDiscarded                    << endl;
-	out << "\t#croissant "        << _croisOrdered                      << endl;
+	out << "Discarded: "          << (_cakes_discarded + _croissants_discarded) << endl;
+	out << "\t#cake "             << _cakes_discarded                           << endl;
+	out << "\t#croissant "        << _croissants_ordered                        << endl;
 	out << endl;
 	
-	out << "Missed Requests: "    << (_cakesMissed+_croisMissed)        << endl;
-	out << "\t#cake "             << _cakesOrdered                      << endl;
-	out << "\t#croissant "        << _croisOrdered                      << endl;
+	out << "Missed Requests: "    << (_cakes_missed + _croissants_missed)        << endl;
+	out << "\t#cake "             << _cakes_ordered                              << endl;
+	out << "\t#croissant "        << _croissants_ordered                         << endl;
 	out << endl;
 }

@@ -7,62 +7,55 @@
 #include <iostream>
 #include <fstream>
 
-#include "customer.h"
-#include "equipment.h"
-#include "foodItem.h"
-#include "supplier.h"
-#include "tallySheet.h"
+#include "Freezer.h"
+#include "Oven.h"
+#include "RoomTempStorage.h"
+#include "Fridge.h"
+#include "Supplier.h"
+#include "TallySheet.h"
 
+#define MAX_ITEMS 
 /******************************************************************************/
 /***************************** CLASS STRUCTURE ********************************/
 /******************************************************************************/
 
 class bakery {
-	friend class equipment;
-	friend class supplier;
 	private:
 		// Atributes
-		float  _cakePrice;   // Selling price ($) of cakes 
-		float  _croiPrice;   // Selling price ($) of croissants
-		double _netCashFlow; // Net cash flow ($) for the day
+		int    _current_cakes;      // Number of cakes in posession + awaiting delivery
+		int    _current_croissants; // Number of croissants in posession + awaiting delivery
 		int    _pending;
 		// Containers
-		list<customer>   _cMaster; // Master list of customers
-		list<foodItem>   _fMaster; // Master list of food items
-		queue<customer*> _cLineup; // Customers waiting at a given time
+		deque<Customer>   _customer_master; // Master deque of customers
+		deque<foodItem>   _food_master; // Master deque of food items
+		queue<Customer*>  _customer_lineup; // Customers waiting at a given time
 		// Equipment
-		equipment _fridge;
-		equipment _freezer;
-		equipment _rtStore; // Room Temperature Storage
-		equipment _oven1;
-		equipment _oven2;
+		Equipment _fridge;
+		Equipment _freezer;
+		Equipment _rtStore; // Room Temperature Storage
+		Equipment _oven1;
+		Equipment _oven2;
 		
 		// Record keepers
 		tallySheet _tally; // Tally sheet for daily reports
 		
 	public:
-		bakery(float cakePrice, float croiPrice, double netCashFlow = 0.0) //Ctor
-		
-		// Getters
-		float cakePrice();   // Getter: Selling price of a cake
-		float croiPrice();   // Getter: Selling price of a croissant
-		float netcashFlow(); // Getter: Cumulative Cash Flow
-		
-		// Setters
-		void cakePrice(float cakePrice);      // Setter: Selling price ($) of cakes 
-		void croiPrice(float croiPrice);      // Setter: Selling price ($) of croissants
-		void netCashFlow(double netCashFlow); // Setter: Net cash flow ($)	
-		void Deposit(double amnt); // Add amnt to net cash flow
-		void Deduct(double amnt);  // Subtract amnt from net cash flow
-		
+		// Ctor
+		bakery(float cake_price, float croissant_price) //Ctor
+		// Mutators
+		void cake_price(float cake_price);           // Setter: Selling price ($) of cakes 
+		void croissant_price(float croissant_price); // Setter: Selling price ($) of croissants
+		void net_cash_flow(double net_cash_flow);    // Setter: Net cash flow ($)	
+		void Deposit(double amnt);                   // Add amnt to net cash flow
+		void Deduct(double amnt);                    // Subtract amnt from net cash flow
+		// Operational functions
+		void processReq(int time, int foodItemType);      // process customer request, 
+		void orderKits(int time, int nCakes, int nCrois); // Removes funds, adds items to foodMaster
+		void receiveKit(int time);                        // Adds raw food item (kit) to appropriate locations
+		void sellOne(int time);                           // Sell a particular item
+		void sellItems(int time);                         // Sell all possible items
 		// Descriptive functions
 
-		// Operation functions
-		void processReq(int foodItemType, int time); // process customer request, 
-		void orderKits(int nCakes, int nCrois, int time); // Removes funds, adds items to foodMaster
-		void receiveKits(int time);
-		void sellOne(int time); // Sell a particular item
-		void sellItems(int time); // Sell all possible items
 		// Read functions 
 		
 		// Write functions
@@ -75,33 +68,32 @@ class bakery {
 /********************************** CTOR **************************************/
 /******************************************************************************/
 
-bakery::bakery(float cakePrice, float croiPrice, netCashFlow)
-: _cmaster(), _fmaster(), _cLineup(), tallySheet(),
+bakery::bakery(float cake_price, float croissant_price, net_cash_flow)
+: _cmaster(), _fmaster(), _customer_lineup(), tallySheet(),
   _fridge(1, 15, -1, -1, ), _freezer(2), _rtStore(3, -1, -1, ), _oven1(4, 2, 60, 50), _oven2(5, 5, 50, 40);
 {
-//equipment(int id, int slots, int croiRawLT, int cakeRawLT, int croiProcT, int cakeProcT, int croiReadyLT, int cakeReadyLT): _items()
-	_cakePrice    = cakePrice;
-	_croiPrice    = croiPrice;
-	_netCashFlow  = netCashFlow;
+
+//Equipment(int id, int slots, int croiRawLT, int cakeRawLT, int croiProcT, int cakeProcT, int croiReadyLT, int cakeReadyLT): _items()
+
 }
 
 /******************************************************************************/
 /********************************* GETTERS ************************************/
 /******************************************************************************/
 
-float bakery::cakePrice() // Getter: Cake Price
+float bakery::cake_price() // Getter: Cake Price
 {
-	return _cakePrice;
+	return _cake_price;
 }
 
-float bakery::croiPrice() // Getter: Croissant Price
+float bakery::croissant_price() // Getter: Croissant Price
 {
-	return _croiPrice;
+	return _croissant_price;
 }
 
-float bakery::netCashFlow() // Getter: Cumulative Cash Flow
+float bakery::net_cash_flow() // Getter: Cumulative Cash Flow
 {
-	return _netCashFlow;
+	return _net_cash_flow;
 }
 
 
@@ -109,30 +101,30 @@ float bakery::netCashFlow() // Getter: Cumulative Cash Flow
 /********************************* SETTERS ************************************/
 /******************************************************************************/
 
-	void cakePrice(float cakePrice)      // Setter: Selling price ($) of cakes
-	{
-		_cakePrice = cakePrice;
-	}
-	
-	void croiPrice(float croiPrice)      // Setter: Selling price ($) of croissants
-	{
-		_croiPrice = croiPrice;
-	}
-	
-	void netCashFlow(double netCashFlow) // Setter: Net cash flow ($)
-	{
-		_netCashFlow = netCashFlow;
-	}
-	
-	void Deposit(double amnt) // Add amnt to net cash flow
-	{
-		_netCashFlow += amnt;
-	}
-	
-	void Deduct(double amnt)  // Subtract amnt from net cash flow
-	{
-		_netCashFlow -= amnt;
-	}
+void cake_price(float cake_price)      // Setter: Selling price ($) of cakes
+{
+	_cake_price = cake_price;
+}
+
+void croissant_price(float croissant_price)      // Setter: Selling price ($) of croissants
+{
+	_croissant_price = croissant_price;
+}
+
+void net_cash_flow(double net_cash_flow) // Setter: Net cash flow ($)
+{
+	_net_cash_flow = net_cash_flow;
+}
+
+void Deposit(double amnt) // Add amnt to net cash flow
+{
+	_net_cash_flow += amnt;
+}
+
+void Deduct(double amnt)  // Subtract amnt from net cash flow
+{
+	_net_cash_flow -= amnt;
+}
 	
 /******************************************************************************/
 /*************************** OPERATION FUNCTIONS ******************************/
