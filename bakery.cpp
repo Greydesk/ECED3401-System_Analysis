@@ -43,8 +43,9 @@ int main(void)
   // Read Input files
   
   // Open-up shop
+
   // Iterate minute-by-minute through day
-  for(int t = 1; t<=CLOSING_TIME; t++){
+  for(int time = 1; time<=CLOSING_TIME; time++){
   	// Trash expiried food
   	
   	// End prep time on cooled items

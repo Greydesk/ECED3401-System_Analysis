@@ -1,12 +1,11 @@
-// Includes equipment class hierarchy and functions
+ // Includes equipment class hierarchy and functions
 
 /******************************************************************************/
-/****************************** EQUIPMENT CLASS *******************************/
+/****************************** RoomTempStorage CLASS *******************************/
 /******************************************************************************/
 
 #include <deque>
-
-#include "Equipment.h"
+#include "FoodItem.h"
 
 /*
 	Notes:
@@ -19,12 +18,14 @@
 /***************************** CLASS STRUCTURE ********************************/
 /******************************************************************************/
 
-class Equipment {
+class RoomTempStorage: public Equipment {
 	friend class Bakery;
 	private:
 		// Attributes
-		const int _equipment_id; // Unique ID number, sequentially designated
-		const int _slots;        // How many item slots the equipment has
+		//const int _equipment_id; // Unique ID number, sequentially designated
+		//const int _slots;        // How many item slots the equipment has
+		const int _croissant_shelf_life;
+		
 		// Containers
 		// queue<foodItem*> _cake_queue; // Queue of all cakes in this piece of equipment
 		// queue<foodItem*> _croissant_queue; // Queue of all cakes in this piece of equipment
@@ -167,4 +168,4 @@ void DiscardAll(int time) // Discards all food items
 			out << "\t" << f->id() << endl;
 		}
 	}
-}*/ 
+}*/
