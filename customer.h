@@ -13,7 +13,6 @@
 #include <random>
 #include <bits/random.h>
 
-#include "FoodItem.h"
 
 const double PROB_RETURN_FOR_ITEM       = 0.50; // probability customer returns as soon as item is completed
 const double PROB_RETURN_WHILE_LEAVING  = 0.50; // probability customer returns before leaving mall GIVEN not returning as soon as item is completed

@@ -7,12 +7,13 @@
 #include <iostream>
 #include <fstream>
 
-#include "Freezer.h"
-#include "Oven.h"
+#include "foodItem.h"
+#include "freezer.h"
+#include "oven.h"
 #include "RoomTempStorage.h"
-#include "Fridge.h"
-#include "Supplier.h"
-#include "TallySheet.h"
+#include "fridge.h"
+#include "supplier.h"
+#include "tallySheet.h"
 
 #define MAX_ITEMS 
 /******************************************************************************/
@@ -27,7 +28,7 @@ class bakery {
 		int    _pending;
 		// Containers
 		deque<Customer>   _customer_master; // Master deque of customers
-		deque<foodItem>   _food_master; // Master deque of food items
+		deque<FoodItem>   _food_master; // Master deque of food items
 		queue<Customer*>  _customer_lineup; // Customers waiting at a given time
 		// Equipment
 		Equipment _fridge;
@@ -37,11 +38,11 @@ class bakery {
 		Equipment _oven2;
 		
 		// Record keepers
-		tallySheet _tally; // Tally sheet for daily reports
+		TallySheet _tally; // Tally sheet for daily reports
 		
 	public:
 		// Ctor
-		bakery(float cake_price, float croissant_price) //Ctor
+		bakery(float cake_price, float croissant_price); //Ctor
 		// Mutators
 		void cake_price(float cake_price);           // Setter: Selling price ($) of cakes 
 		void croissant_price(float croissant_price); // Setter: Selling price ($) of croissants
@@ -68,9 +69,7 @@ class bakery {
 /********************************** CTOR **************************************/
 /******************************************************************************/
 
-bakery::bakery(float cake_price, float croissant_price, net_cash_flow)
-: _cmaster(), _fmaster(), _customer_lineup(), tallySheet(),
-  _fridge(1, 15, -1, -1, ), _freezer(2), _rtStore(3, -1, -1, ), _oven1(4, 2, 60, 50), _oven2(5, 5, 50, 40);
+bakery::bakery(float cake_price, float croissant_price, net_cash_flow) :_cmaster(), _fmaster(), _customer_lineup(), tallySheet(), fridge(1, 15, -1, -1, ), _freezer(2), _rtStore(3, -1, -1, ), _oven1(4, 2, 60, 50), _oven2(5, 5, 50, 40)
 {
 
 //Equipment(int id, int slots, int croiRawLT, int cakeRawLT, int croiProcT, int cakeProcT, int croiReadyLT, int cakeReadyLT): _items()
