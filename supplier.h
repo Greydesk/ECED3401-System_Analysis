@@ -8,7 +8,7 @@
 */
 
 #include <random>
-#include "Customer.h"
+#include "customer.h"
 
 using namespace std;
 
@@ -29,29 +29,29 @@ class supplier{
 		float  _priceCroiKit; // Price of a croissant kit
 		int    _deliveryMinT; // minimum time (in minutes) for a delivery to arrive
 		int    _deliveryMaxT; // Maximum time (in minutes) for a delivery to be delayed
-		list<foodItem*> _pending; // List of food items yet to be delivered
+		list<FoodItem*> _pending; // List of food items yet to be delivered
 		// Pointers to master lists
-		list<customer>* _cMaster;
-		list<foodItem>* _fMaster;
+		list<Customer>* _cMaster;
+		list<FoodItem>* _fMaster;
 		// Probability entitiy
 		static bernoulli_distribution _bernDist;
 		
 	public:
-		supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMaster, list<customer>* fMaster); // Supplier Ctor
+		supplier(float priceCakeKit, float priceCroiKit, list<Customer>* cMaster, list<Customer>* fMaster); // Supplier Ctor
 		void receiveOrder(int time, int ncakes, int ncrois); // process order received at time time
-		void presentOrders(int time,  );
-}
+		void presentOrders(int time, Equipment fridge, Equipment freezer);
+};
 
 /******************************************************************************/
 /********************************** CTOR **************************************/
 /******************************************************************************/
 
-supplier::supplier(float priceCakeKit, float priceCroiKit, list<customer>* cMaster, list<customer>* fMaster): _pending()
+supplier::supplier(float priceCakeKit, float priceCroiKit, list<Customer>* cMaster, list<Customer>* fMaster): _pending()
 {
 	_priceCakeKit = priceCakeKit;
 	_priceCroiKit = priceCroiKit;
 	_deliveryMinT = MIN_DELIVERY_TIME;
-	_deliverymaxT = MAX_DELIVERY_TIME;
+	_deliveryMaxT = MAX_DELIVERY_TIME;
 	_cMaster      = cMaster;
 	_fMaster      = fMaster;
 	_bernDist(PROB_FAST_DELIVERY);
@@ -71,23 +71,24 @@ void supplier::receiveOrder(int time, int ncakes, int ncrois)
 	int newID = 0;
 	
 	for(int ck = 0; ck < ncakes; ck++){
-		_fMaster.emplace_back(_fMaster->size() + 1, 0, time, deliveryT);
-		_pending.emplace_front(_fMaster->back());
+		_fMaster->push_back(FoodItem(_fMaster->size() + 1, 0, time, deliveryT));
+		_pending.push_front(_fMaster->back());
 	}
 
-	for(int cr = 0; ck < ncrois; cr++){
-		newID = _foodmaster.size() + 1;
-		_fMaster.emplace_back(newID, 1, time, deliveryT);
-		_pending.emplace_front(_fmaster->back());
+	for(int cr = 0; cr < ncrois; cr++){
+		newID = _fMaster->size() + 1;
+		_fMaster->push_back(FoodItem(newID, 1, time, deliveryT));
+		_pending->push_front(_fMaster->back());
 	}
 }
 
-void supplier::presentOrders(int time, equipment fridge, equipment freezer){
-	deque<foodItem*>::iterator = _pending.begin();
-	while (itr != _pending.end()){
-		if(*itr->deliveryTime() == time) fridge.add()
+void supplier::presentOrders(int time, Equipment fridge, Equipment freezer){
+	deque<FoodItem>::iterator itr;
+	for (itr =_pending.begin(); itr != _pending.end(); ++itr){
+		if(itr->delivery_time() == time) fridge.add();
 	}
-    std::cout << ' ' << *it++;
+
+	std::cout << ' ' << *itr++;
 }
 
 /******************************************************************************/

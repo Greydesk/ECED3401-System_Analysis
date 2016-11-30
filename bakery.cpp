@@ -33,9 +33,9 @@ using namespace std;
 int main(void)
 {
   // Initialize variables
-  list<customer> custMaster;
-  list<foodItem> foodMaster;
-  list<customer*> mall; // Store loiterers that may will return
+  list<Customer> custMaster;
+  list<FoodItem> foodMaster;
+  list<Customer*> mall; // Store loiterers that may will return
   
   bakery();
   

@@ -6,7 +6,7 @@
 
 #include <deque>
 
-#include "Customer.h"
+#include "customer.h"
 
 #define CAKE_SHELF_LIFE 6*60 // How long a cake will be sellable after completion
 #define CROISSANT_SHELF_LIFE 6*60 // How long a croissant will be sellable after completion
